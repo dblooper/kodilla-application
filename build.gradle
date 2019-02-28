@@ -1,10 +1,11 @@
 buildscript {
 	ext {
-
-		springBootVersion = '1.5.19.RELEASE'
+		springBootVersion = '2.0.0.M3'
 	}
 	repositories {
 		mavenCentral()
+		maven{ url "https://repo.spring.io/shanpshot"}
+		maven{ url "https://repo.spring.io/milestone"}
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
@@ -12,15 +13,17 @@ buildscript {
 }
 
 apply plugin: 'java'
+apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
-group = 'com.crud'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '1.8'
+sourceCompatibility = 1.8
 
 repositories {
 	mavenCentral()
+    maven{ url "https://repo.spring.io/shanpshot"}
+    maven{ url "https://repo.spring.io/milestone"}
 }
 
 dependencies {
@@ -32,4 +35,6 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	runtimeOnly 'mysql:mysql-connector-java'	
 	compileOnly 'org.projectlombok:lombok:1.18.6'
+	implementation 'mysql:mysql-connector-java:8.0.15'
+
 }

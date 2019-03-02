@@ -13,7 +13,7 @@ buildscript {
 }
 
 apply plugin: 'java'
-apply plugin: 'war'
+//apply plugin: 'war'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
@@ -32,11 +32,14 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
-	
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	runtimeOnly 'mysql:mysql-connector-java'	
-	compileOnly 'org.projectlombok:lombok:1.18.6'
-	implementation 'mysql:mysql-connector-java:8.0.15'
 
+//	providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+//	runtimeOnly 'mysql:mysql-connector-java'
+// 	implementation 'mysql:mysql-connector-java:8.0.15'
+	compile('org.postgresql:postgresql')
+
+	compileOnly 'org.projectlombok:lombok:1.18.6'
 }

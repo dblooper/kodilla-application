@@ -37,9 +37,9 @@ dependencies {
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-//	runtimeOnly 'mysql:mysql-connector-java'
-// 	implementation 'mysql:mysql-connector-java:8.0.15'
-	compile('org.postgresql:postgresql')
+	runtimeOnly 'mysql:mysql-connector-java'
+ 	implementation 'mysql:mysql-connector-java:8.0.15'
+//	compile('org.postgresql:postgresql')
 
 	compileOnly 'org.projectlombok:lombok:1.18.6'
 }

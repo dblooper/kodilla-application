@@ -1,6 +1,5 @@
 package com.crud.tasks.trello.client;
 
-import com.crud.tasks.controller.BoardNotFoundException;
 import com.crud.tasks.domain.TrelloBoardDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-public class TrelloClinet {
+public class TrelloClient {
 
     @Value(("${trello.api.endpoint.prod}"))
     private String trelloApiEndpoint;
@@ -33,19 +32,19 @@ public class TrelloClinet {
     @Autowired
     private RestTemplate restTemplate;
 
-    public List<TrelloBoardDto> getTrelloBoards() throws BoardNotFoundException {
+    public List<TrelloBoardDto> getTrelloBoards() {
 
         TrelloBoardDto[] boardsResponse = restTemplate.getForObject(
-                buildTrelloUrl(trelloApiEndpoint,trelloAppKey,trelloToken,username,"name", "id", "url"),
+                buildTrelloUrl(trelloApiEndpoint,trelloAppKey,trelloToken,username,"all","name", "id", "url"),
                 TrelloBoardDto[].class);
 
-        return Optional.ofNullable(boardsResponse).map(Arrays::asList).orElseThrow(BoardNotFoundException::new);
+        return Optional.ofNullable(boardsResponse).map(Arrays::asList).orElse(new ArrayList<>());
     }
 
-    private URI buildTrelloUrl(String trelloApiEndpoint, String trelloAppKey, String trelloToken, String username, String... fields) {
+    private URI buildTrelloUrl(String trelloApiEndpoint, String trelloAppKey, String trelloToken, String username,String listsParameter, String... fieldsOfBoard) {
 
         StringBuilder fieldsBuilder = new StringBuilder();
-        for (String field : fields) {
+        for (String field : fieldsOfBoard) {
             fieldsBuilder.append(field);
             fieldsBuilder.append(",");
         }
@@ -53,7 +52,8 @@ public class TrelloClinet {
         return UriComponentsBuilder.fromHttpUrl(trelloApiEndpoint + "/members/" + username + "/boards")
                 .queryParam("key", trelloAppKey)
                 .queryParam("token", trelloToken)
-                .queryParam("fields", fieldsBuilder.toString())
+                .queryParam("fieldsOfBoard", fieldsBuilder.toString())
+                .queryParam("lists", listsParameter)
                 .build().encode().toUri();
     }
 }

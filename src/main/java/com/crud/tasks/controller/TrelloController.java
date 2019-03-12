@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,7 +20,7 @@ public class TrelloController {
     private TrelloClient trelloClient;
 
     @RequestMapping(method = RequestMethod.GET, value = "getTrelloBoards")
-    public void getTrelloBoards() {
+    public List<TrelloBoardDto> getTrelloBoards() {
         List<TrelloBoardDto> trelloBoards = trelloClient.getTrelloBoards();
         trelloBoards.stream()
                 .filter(board -> board.getId()!=null && board.getName() != null)
@@ -36,6 +35,7 @@ public class TrelloController {
                             System.out.println("   ->NAME: " + trelloList.getName() +
                                                "\n     ID: " + trelloList.getId()));
                 });
+        return trelloBoards;
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "createTrelloCard")

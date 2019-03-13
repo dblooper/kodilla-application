@@ -81,7 +81,6 @@ public class TrelloClientTest {
         //When
         CreatedTrelloCard newCard = trelloClient.createNewCard(trelloCardDto);
 
-
         //Then
         assertEquals("1", newCard.getId());
         assertEquals("Test task", newCard.getName());
@@ -93,6 +92,7 @@ public class TrelloClientTest {
         //Given
         TrelloBoardDto[] trelloBoardDto = null;
         URI uri = new URI("http://test.com/members/danielkoplenski/boards?key=test&token=test&fields=name,id,url&lists=all");
+
         when(restTemplate.getForObject(uri,TrelloBoardDto[].class)).thenReturn(trelloBoardDto);
 
         //When

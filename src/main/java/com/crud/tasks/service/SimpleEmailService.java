@@ -38,7 +38,6 @@ public class SimpleEmailService {
         } else {
             mailBase(mailMessage, mail);
         }
-        System.out.println(mailMessage);
 
         return mailMessage;
     }

@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DbServiceTestSuite {
@@ -66,15 +66,14 @@ public class DbServiceTestSuite {
         assertEquals("Tested_content_task1", returnedTask.getContent());
     }
 
-//    @Test
-//    public void shouldDeleteTask() {
-//        //Given
-//        List<Task> taskList = new ArrayList<>();
-//        Task task1 = new Task(1L, "Test_title_task1", "Tested_content_task1");
-//        Task task2 = new Task(2L, "Test_title_task2", "Tested_content_task2");
-//        taskList.add(task1);
-//        taskList.add(task2);
-//
-//        when(taskRepository.delete(task1)).then(taskList.remove(0));
-//    }
+    @Test
+    public void shouldDeleteTask() {
+        //Given
+        //nothing
+        //When
+        dbService.deleteTaskById(1L);
+        //Then
+        verify(taskRepository, times(1)).deleteById(any());
+
+    }
 }

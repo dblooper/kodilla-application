@@ -14,12 +14,14 @@ import java.util.stream.Collectors;
 public class TrelloVaildator {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TrelloVaildator.class);
+    public static final String VALIDATION_FAILED = "Someone is testing my app...";
+    public static final String VALIDATION_PASSED = "Application works properly, card added";
 
     public void validateCard(final TrelloCard trelloCard) {
         if(trelloCard.getName().contains("test")) {
-            LOGGER.info("Someone is testing my app...");
+            LOGGER.info(VALIDATION_FAILED);
         } else {
-            LOGGER.info("Application works properly, card added");
+            LOGGER.info(VALIDATION_PASSED);
         }
     }
 

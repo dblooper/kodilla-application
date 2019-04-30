@@ -5,7 +5,6 @@ import com.crud.tasks.repository.TaskRepository;
 import com.crud.tasks.service.Mail;
 import com.crud.tasks.service.SimpleEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.MailException;
 import org.springframework.scheduling.annotation.Scheduled;
 
 public class EmailSheduler {

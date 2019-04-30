@@ -7,7 +7,6 @@ import com.crud.tasks.service.DbService;
 import com.google.gson.Gson;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -23,6 +22,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -75,6 +75,7 @@ public class TaskControllerTestSuite {
                 .characterEncoding("UTF-8")
                 .param("taskId", "1"))
                 .andExpect(status().is(200))
+                .andDo(print())
                 .andExpect(jsonPath("$.id", is(1)))
                 .andExpect(jsonPath("$.content", is("Test_content1")));
     }
@@ -88,7 +89,6 @@ public class TaskControllerTestSuite {
                         .characterEncoding("UTF-8")
                         .param("taskId", "1"))
                         .andExpect(status().is(200));
-
         verify(dbService, times(1)).deleteTaskById(anyLong());
     }
 
@@ -98,17 +98,20 @@ public class TaskControllerTestSuite {
         Task task = new Task(1L,"Test_title1", "Test_content1");
         TaskDto taskDto = new TaskDto(1L,"Test_title1", "Test_content1");
 
-        when(taskMapper.mapToTaskDto(task)).thenReturn(taskDto);
+        when(taskMapper.mapToTask(taskDto)).thenReturn(task);
+        when(dbService.saveTask(task)).thenReturn(task);
 
         Gson gson = new Gson();
         String jsonFormatTask = gson.toJson(taskDto);
 
         //When&Then
-        mockMvc.perform(put("/v1/task/updateTask/")
+        mockMvc.perform(put("/v1/task/updateTask")
                             .contentType(MediaType.APPLICATION_JSON)
                             .characterEncoding("UTF-8")
                             .content(jsonFormatTask))
-                .andExpect(status().is(200));
+                .andExpect(status().is(200))
+                .andExpect(jsonPath("$.id", is(1)))
+                .andExpect(jsonPath("$.content", is("Test_content1")));
     }
 
     @Test

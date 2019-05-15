@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class StaticWebPageController {
 
     @RequestMapping("/")
-    public String index() {
+    public String getIndex() {
         return "index";
     }
 }

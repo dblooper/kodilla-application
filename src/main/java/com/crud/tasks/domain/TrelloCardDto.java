@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @Getter
+@NoArgsConstructor
 public class TrelloCardDto {
 
     private String name;

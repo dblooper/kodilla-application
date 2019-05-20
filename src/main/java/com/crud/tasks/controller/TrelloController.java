@@ -18,26 +18,26 @@ public class TrelloController {
     @Autowired
     private TrelloFacade trelloFacade;
 
-    @RequestMapping(method = RequestMethod.GET, value = "getTrelloBoards")
+    @RequestMapping(method = RequestMethod.GET, value = "/boards")
     public List<TrelloBoardDto> getTrelloBoards() {
         List<TrelloBoardDto> trelloBoards = trelloFacade.fetchTrelloBoards();
-        trelloBoards.stream()
-                .filter(board -> board.getId()!=null && board.getName() != null)
-                .filter(board -> board.getName().contains("Kodilla"))
-                .collect(Collectors.toList())
-                .forEach(trelloBoardDto -> {
-                    System.out.println("ID: " + trelloBoardDto.getId()
-                            + "\nBOARD NAME: " + trelloBoardDto.getName()
-                            + "\nURL: " + trelloBoardDto.getUrl());
-                    System.out.println("The board contains lists: ");
-                    trelloBoardDto.getTrelloLists().forEach(trelloList ->
-                            System.out.println("   ->NAME: " + trelloList.getName() +
-                                               "\n     ID: " + trelloList.getId()));
-                });
+//        trelloBoards.stream()
+//                .filter(board -> board.getId()!=null && board.getName() != null)
+//                .filter(board -> board.getName().contains("Kodilla"))
+//                .collect(Collectors.toList())
+//                .forEach(trelloBoardDto -> {
+//                    System.out.println("ID: " + trelloBoardDto.getId()
+//                            + "\nBOARD NAME: " + trelloBoardDto.getName()
+//                            + "\nURL: " + trelloBoardDto.getUrl());
+//                    System.out.println("The board contains lists: ");
+//                    trelloBoardDto.getTrelloLists().forEach(trelloList ->
+//                            System.out.println("   ->NAME: " + trelloList.getName() +
+//                                               "\n     ID: " + trelloList.getId()));
+//                });
         return trelloBoards;
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "createTrelloCard")
+    @RequestMapping(method = RequestMethod.POST, value = "/cards")
     public CreatedTrelloCardDto createTrelloCard(@RequestBody TrelloCardDto trelloCardDto) {
         return trelloFacade.createCard(trelloCardDto);
     }

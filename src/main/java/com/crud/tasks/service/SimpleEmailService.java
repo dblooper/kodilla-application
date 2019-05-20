@@ -21,16 +21,25 @@ public class SimpleEmailService {
     @Autowired
     private MailCreatorService mailCreatorService;
 
-    public void send(Mail mail) {
+    public void send(Mail mail, boolean isScheduledMessage) {
 
         LOGGER.info("Starting email preparation...");
 
-        try {
-            javaMailSender.send(createMimeMessage(mail));
-            LOGGER.info("Email has been sent.");
-        }catch(MailException e) {
-            LOGGER.error("Failed to process email sending: ", e.getMessage(), e);
-        }
+        if (isScheduledMessage) {
+            try {
+                javaMailSender.send(createScheduledMailMessage(mail));
+                LOGGER.info("Scheduled mail has been sent.");
+            }catch(MailException e){
+                LOGGER.error("Scheduled email has not been send: ", e.getMessage(), e);
+            }
+         }else {
+            try {
+                javaMailSender.send(createMimeMessage(mail));
+                LOGGER.info("Information email has been sent.");
+            } catch (MailException e) {
+                LOGGER.error("Information email has not bern send: ", e.getMessage(), e);
+            }
+    }
     }
 
     private MimeMessagePreparator createMimeMessage(final Mail mail) {
@@ -39,6 +48,15 @@ public class SimpleEmailService {
             mimeMessageHelper.setTo(mail.getMailTo());
             mimeMessageHelper.setSubject(mail.getSubject());
             mimeMessageHelper.setText(mailCreatorService.buildTrelloCardEmail(mail.getMessage()), true);
+        };
+    }
+
+    private MimeMessagePreparator createScheduledMailMessage(Mail mail) {
+        return mimeMessage -> {
+            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
+            mimeMessageHelper.setTo(mail.getMailTo());
+            mimeMessageHelper.setSubject(mail.getSubject());
+            mimeMessageHelper.setText(mailCreatorService.buildRemindTasksStatusEmail(mail.getMessage()), true);
         };
     }
 

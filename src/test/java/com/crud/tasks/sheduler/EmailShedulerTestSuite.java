@@ -3,6 +3,7 @@ package com.crud.tasks.sheduler;
 import com.crud.tasks.config.AdminConfig;
 import com.crud.tasks.repository.TaskRepository;
 import com.crud.tasks.service.Mail;
+import com.crud.tasks.service.MailCreatorService;
 import com.crud.tasks.service.SimpleEmailService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,7 +40,7 @@ public class EmailShedulerTestSuite {
         emailSheduler.sendInfromation();
 
         //Then
-        verify(simpleEmailService, times(1)).send(mail);
+        verify(simpleEmailService, times(1)).send(mail, true);
     }
 
 }

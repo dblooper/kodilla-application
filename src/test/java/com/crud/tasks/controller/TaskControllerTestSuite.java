@@ -54,7 +54,7 @@ public class TaskControllerTestSuite {
         when(taskMapper.mapToTaskDtoList(taskList)).thenReturn(taskDtoList);
 
         //When&Then
-        mockMvc.perform(get("/v1/task/getTasks").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/v1/tasks").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(200))
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[0].id", is(1)))
@@ -110,6 +110,8 @@ public class TaskControllerTestSuite {
                 .andExpect(status().is(200))
                 .andExpect(jsonPath("$.id", is(1)))
                 .andExpect(jsonPath("$.content", is("Test_content1")));
+
+        verify(dbService, times(1)).saveTask(any());
     }
 
     @Test

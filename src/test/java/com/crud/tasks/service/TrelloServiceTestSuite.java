@@ -65,6 +65,6 @@ public class TrelloServiceTestSuite {
         assertNotNull(createdTrelloCardDto);
         assertEquals("1", createdTrelloCardDto.getId());
         assertEquals("My_card", createdTrelloCardDto.getName());
-        verify(emailService, times(1)).send(any());
+        verify(emailService, times(1)).send(any(), anyBoolean());
     }
 }
